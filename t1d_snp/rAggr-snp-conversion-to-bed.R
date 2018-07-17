@@ -1,4 +1,4 @@
-# Date: 2018-07-12
+# Date: 2018-07-13
 # This R script will function to take the raw csv files from rAggr and format them for eventual analysis
 # We will process the file in .csv format as it is given, remove unnecessary columns (only retain chromosome, position, "name", and r^2 score)
 # A new column will also be added for the position to make it consistent with .bed format (the position that flanks the SNP will be "-1" what is stated e.g. pos 2666 with be 2665-2666)
@@ -58,6 +58,11 @@ agg_snp <- agg_snp[order(agg_snp$SNP2.Chr),]
 # Add the starting position for the SNP
 
 agg_snp$start.pos <- agg_snp$SNP2.Pos - 1
+
+# Converting chromosome 24 and 25 back to X and Y
+
+agg_snp$SNP2.Chr <- sub("24", "X", agg_snp$SNP2.Chr)
+agg_snp$SNP2.Chr <- sub("25", "Y", agg_snp$SNP2.Chr)
 
 # Need to add the string "chr" to the front of the chromosome numbers
 
