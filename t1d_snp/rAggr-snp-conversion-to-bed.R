@@ -10,12 +10,11 @@ library(tidyr)
 
 # Set the working directory
 
-setwd("/home/jlee631/todd_labwork/t1d_snp/proins_rAggr")
+setwd("/home/jlee631/Downloads")
 
 # Input the raw csv file into the working environment
 
-agg_snp <- read.csv("1185985759.csv", stringsAsFactors = FALSE, strip.white = TRUE)
-
+agg_snp <- read.csv("410012392.csv", stringsAsFactors = FALSE, strip.white = TRUE)
 
 # Have to do a bit of workaround to make this safer for the future
 # I'm first going to convert anything in the X chromosome as chr 24, Y chromosome as chr 25
@@ -58,12 +57,12 @@ agg_snp <- unite(agg_snp, SNP2.Name, c(SNP2.Name, Population), remove = TRUE)
 
 # This will order the SNPs to set up duplicate removal
 
-agg_snp <- agg_snp[order(agg_snp$SNP2.Pos, -agg_snp$R.squared),]
+agg_snp <- agg_snp[order(agg_snp$SNP2.Chr, agg_snp$SNP2.Pos, -agg_snp$R.squared),]
 
 # This will now delete all the duplicates and leave the SNPs with the highest R squared to the index SNPs
 # Note: It seems like 2 index SNPs can map to a linked SNP, this deletion step will delete the one that is lower in R squared
 
-agg_snp <- agg_snp[!duplicated(agg_snp[c("SNP2.Pos")]),]
+agg_snp <- agg_snp[!duplicated(agg_snp[c("SNP2.Chr", "SNP2.Pos")]),]
 
 # Now we are going to sort these SNPs back into order by chromosome
 
